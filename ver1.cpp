@@ -1,119 +1,159 @@
-//1wsza wersja, poki co tlumaczê poradniki z internetu.Zwykly trojkat
-#include <stdio.h>
+#include "stdafx.h"
+#include <GL/glut.h>
+#include<iostream>
 #include <stdlib.h>
 
-
-#include <GL/glew.h>
-
-
-#include <GLFW/glfw3.h>
-GLFWwindow* window;
-
-#include <glm/glm.hpp>
-using namespace glm;
-
-#include <common/shader.hpp>
-
-int main( void )
+// Deklaracje funkcji, ktore beda uzyte do obslugi roznych zdarzen.
+void OnRender();
+void OnReshape(int, int);
+// Punkt wejscia do programu.
+int main(int argc, char * argv[])
 {
-	// Initialise GLFW
-	if( !glfwInit() )
-	{
-		fprintf( stderr, "Nie udalo sie wlaczyc GLFW\n" );
-		getchar();
-		return -1;
-	}
+	// Inicjalizacja biblioteki GLUT. Nalezy przekazac parametry
+	// wywolania programu.
+	glutInit(&argc, argv);
 
-	glfwWindowHint(GLFW_SAMPLES, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	// Ustawienie parametrow okna i kontekstu OpenGL.
+	glutInitWindowPosition(100, 100);
+	glutInitWindowSize(640, 360);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH); // bufor klatki w formacie RGBA, double-buffered, z buforem glebokosci
 
-	// Otworz okno i stworz kontekst opengl
-	window = glfwCreateWindow( 1024, 768, "Tutorial 02 - Red triangle", NULL, NULL);
-	if( window == NULL ){
-		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
-		getchar();
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
+	// Utworzenie wlasciwego okna i nadanie mu tytulu.
+	glutCreateWindow("Projekt CPP czesc 1");
 
-	// Initialize GLEW
-	glewExperimental = true; // Needed for core profile
-	if (glewInit() != GLEW_OK) {
-		fprintf(stderr, "Failed to initialize GLEW\n");
-		getchar();
-		glfwTerminate();
-		return -1;
-	}
+	// Ustawienie funkcji Render() jako tej, ktora jest wykonywana
+	// kazdorazowo gdy potrzeba przerysowac zawartosc okna.
+	glutDisplayFunc(OnRender);
+	glutReshapeFunc(OnReshape);
 
-	// Ustawienie przechwytywania klawiszy
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	// Wlaczenie testu glebokosci.
+	glEnable(GL_DEPTH_TEST);
 
-	// Ciemnoniebieskie t³o
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
-
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
-
-	// Stwórz i skompiluj GLSL program dla shaderów
-	GLuint programID = LoadShaders( "SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader" );
-
-
-	static const GLfloat g_vertex_buffer_data[] = { 
-		-1.0f, -1.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
-	};
-
-	GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-
-	do{
-
-		// Wyczysc ekran
-		glClear( GL_COLOR_BUFFER_BIT );
-
-		// U¿yj shaderow
-		glUseProgram(programID);
-
-		// 1rst attribute buffer : vertices
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glVertexAttribPointer(
-			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-
-		// NARYSUJ TROJKAT !
-		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
-
-		glDisableVertexAttribArray(0);
-
-		// Zamien bufory
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-
-	} // Sprawdz czy klawisz ESC byl nacisniety lub okno zamkniete
-	while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
-		   glfwWindowShouldClose(window) == 0 );
-
-	// Wyczysc VBO
-	glDeleteBuffers(1, &vertexbuffer);
-	glDeleteVertexArrays(1, &VertexArrayID);
-	glDeleteProgram(programID);
-
-	// Zamknij okno OpenGL i zabij GLFW
-	glfwTerminate();
+	// Rozpoczecie wykonywania petli glownej. Od tego momentu
+	// wplyw na przebieg dzialania programu maja wylacznie zarejestrowane
+	// uprzednio callbacki.
+	glutMainLoop();
 
 	return 0;
 }
 
+// Licznik klatek - uzyteczny przy prostym ruchu kamery.
+int frame = 0;
+
+// Callback przerysowujacy klatke.
+void OnRender() {
+
+	// Wyczysc zawartosc bufora koloru i glebokosci.
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Wybor macierzy, ktora od tej pory bedziemy modyfikowac
+	// - macierz Modelu/Widoku.
+	glMatrixMode(GL_MODELVIEW);
+
+	// Zaladowanie macierzy jednostkowej.
+	glLoadIdentity();
+
+	// Przesuniecie swiata (przeciwienstwo przesuniecia kamery).
+	glTranslatef(0.0f, 0.0f, -13.0f);
+
+	// Obrot kamery
+	glRotatef(frame, 0.0f, 1.0f, 0.0f);
+
+
+	// Rysowanie obiektow na scenie.
+
+	// Prostopadloscian/brz
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glPushMatrix();
+		glTranslatef(0.0f, 0.5f, 0.0f);
+		glScalef(0.5f, 4.0f, 0.5f);
+		glutSolidCube(1.30f);
+	glPopMatrix();
+
+	// Prostopadloscian/noga 1
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glPushMatrix();
+		
+		glTranslatef(-1.6f, -4.0f, 0.0f);
+		glRotatef(320, .0f, 0.0f, 1.0f);
+		glScalef(0.5f, 4.0f, 0.5f);
+		glutSolidCube(0.8f);
+	glPopMatrix();
+
+	// Prostopadloscian/noga 2
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glPushMatrix();
+
+	glTranslatef(+1.6f, -4.0f, 0.0f);
+	glRotatef(40, .0f, 0.0f, 1.0f);
+	glScalef(0.5f, 4.0f, 0.5f);
+	glutSolidCube(0.8f);
+	glPopMatrix();
+
+	// Prostopadloscian/reka 1
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glPushMatrix();
+
+	glTranslatef(-2.50f, +2.0f, 0.0f);
+	glRotatef(280, .0f, 0.0f, 1.0f);
+	glScalef(0.5f, 4.0f, 0.5f);
+	glutSolidCube(0.8f);
+	glPopMatrix();
+
+	// Prostopadloscian/reka 2
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glPushMatrix();
+
+	glTranslatef(+2.50f, +2.0f, 0.0f);
+	glRotatef(80, .0f, 0.0f, 1.0f);
+	//glRotatef(frame, 0.0f, 0.0f, 0.0f);
+	glScalef(0.5f, 4.0f, 0.5f);
+	glutSolidCube(0.8f);
+	glPopMatrix();
+
+	// Kula/leb
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glPushMatrix();
+		glTranslatef(0.0f, 4.5f, 0.0f);
+		glutSolidSphere(1.0f, 24, 24);
+	glPopMatrix();
+
+	// Stozek/czapka
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glPushMatrix();
+		glTranslatef(0.0f, 6.0f, 0.0f);
+		glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+		glutSolidCone(.5f, 1.0f, 14, 14);
+	glPopMatrix();
+	
+
+	// Jesli instrukcje w danej implementacji OpenGL byly buforowane,
+	// w tym momencie bufor zostanie oprozniony a instrukcje wykonane.
+	glFlush();
+
+	// Zamien front-buffer z back-bufferem (double buffering).
+	glutSwapBuffers();
+
+	// Nakaz wyswietlic kolejna klatke.
+	glutPostRedisplay();
+
+	// Inkrementacja licznika klatek.
+	frame++;
+
+}
+
+// Callback obslugujacy zmiane rozmiaru okna.
+void OnReshape(int width, int height) {
+	// Wybor macierzy - macierz Projekcji.
+	glMatrixMode(GL_PROJECTION);
+
+	// Zaladowanie macierzy jednostkowej.
+	glLoadIdentity();
+
+	// Okreslenie obszaru renderowania - caly obszar okna.
+	glViewport(0, 0, width, height);
+
+	// Chcemy uzyc kamery perspektywicznej o kacie widzenia 60 stopni
+	// i zasiegu renderowania 0.01-100.0 jednostek.
+	gluPerspective(60.0f, (float) width / height, .01f, 100.0f);
+}

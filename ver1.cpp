@@ -10,12 +10,29 @@ void OnRender();
 void OnReshape(int, int);
 // Punkt wejscia do programu.
 
+
+float Xgracza = 0;
+
 void keyPressed(unsigned char key, int x, int y)
 {
 	if (key == 'a')
 	{ 
 		std::cout << "elo";
+		Xgracza = Xgracza - 0.05;
+		if (Xgracza < -3)
+		{
+			Xgracza = 0;
+		}
+	}
 
+	
+	if (key == 'd')
+	{
+		Xgracza = Xgracza + 0.05;
+		if (Xgracza > 3)
+		{
+			Xgracza = 0;
+		}
 	}
 }
 
@@ -31,7 +48,7 @@ int main(int argc, char * argv[])
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(1024, 768);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH); // bufor klatki w formacie RGBA, double-buffered, z buforem glebokosci
-	glutKeyboardFunc(keyPressed);
+	glutKeyboardFunc(keyPressed); //funkcja kontrolujaca klawisze
 	// Utworzenie wlasciwego okna i nadanie mu tytulu.
 	glutCreateWindow("Projekt CPP czesc 1");
 
@@ -54,8 +71,9 @@ int main(int argc, char * argv[])
 // Licznik klatek - uzyteczny przy prostym ruchu kamery.
 int frame = 0;
 float posx = 0.00;
+float posy = 0.00;
 
-int v = 1;//predkosc 
+int v = 0.01;//predkosc 
 
 
 // Callback przerysowujacy klatke.
@@ -94,19 +112,32 @@ void OnRender() {
 	// Kulka
 	glColor3f(0.0f, 1.0f, 0.0f);
 	glPushMatrix();
-		glTranslatef(posx, 4.5f, 0.8f);
+		glTranslatef(posx, posy, 0.8f);
 		glutSolidSphere(.2f, 24, 24);
 	glPopMatrix();
-		
-	if (posx < 7)
+
+	// gracz
+	glColor3f(1.0f, 0.0f, 0.0f);
+		glPushMatrix();
+	glTranslatef(Xgracza, -3.5f, 0.0f);
+	glScalef(1.0f, .5f, 1.5f);
+	glutSolidCube(1.00f);
+		glPopMatrix();
+
+	if (posx < 3)
 	{
-		posx += 0.01;
+		posx = 0.01*frame;
 		
 
 	}
 	else
 	{
 		posx = posx - 0.1;
+	}
+	
+	if (posy < 10)
+	{
+		posy = 0.005 * frame;
 	}
 	// Jesli instrukcje w danej implementacji OpenGL byly buforowane,
 	// w tym momencie bufor zostanie oprozniony a instrukcje wykonane.

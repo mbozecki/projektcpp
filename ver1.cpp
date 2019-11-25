@@ -5,20 +5,29 @@
 #include "soil.h"
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+#include "GL/freeglut.h"
 // Deklaracje funkcji, ktore beda uzyte do obslugi roznych zdarzen.
 void OnRender();
 void OnReshape(int, int);
 // Punkt wejscia do programu.
-
-
+GLint polygon_smooth_hint = GL_NICEST;
+//glEnable(GL_POLYGON_SMOOTH);
 float Xgracza = 0;
+
+GLuint texture;
+//glGenTextures(1, &texture);
+
 
 void keyPressed(unsigned char key, int x, int y)
 {
 	if (key == 'a')
 	{ 
-		std::cout << "elo";
-		Xgracza = Xgracza - 0.05;
+
+		Xgracza = Xgracza - 0.15;
+		
 		if (Xgracza < -3)
 		{
 			Xgracza = 0;
@@ -28,7 +37,7 @@ void keyPressed(unsigned char key, int x, int y)
 	
 	if (key == 'd')
 	{
-		Xgracza = Xgracza + 0.05;
+		Xgracza = Xgracza + 0.15;
 		if (Xgracza > 3)
 		{
 			Xgracza = 0;
@@ -70,11 +79,11 @@ int main(int argc, char * argv[])
 
 // Licznik klatek - uzyteczny przy prostym ruchu kamery.
 int frame = 0;
-float posx = 0.00;
+float posx = 1.00;
 float posy = 0.00;
 
-int v = 0.01;//predkosc 
-
+float vy = 0.06;//predkosc  y
+float vx = 0.06;//predkosc  x
 
 // Callback przerysowujacy klatke.
 void OnRender() {
@@ -91,17 +100,17 @@ void OnRender() {
 	glLoadIdentity();
 
 	// Przesuniecie swiata (przeciwienstwo przesuniecia kamery).
-	glTranslatef(0.0f, 0.0f, -13.0f);
+	glTranslatef(-Xgracza*0.1, 0.0f, -13.0f);
 
 	// Obrot kamery
 	//glRotatef(frame, 0.0f, 1.0f, 0.0f);
-	glRotatef(0, 1.0f, 0.0f, 0.0f);
+	glRotatef(-30, 1.0f, Xgracza * 0.05, 0.0f);
 
 
 	// Rysowanie obiektow na scenie.
 
 	// Prostopadloscian/brz
-	glColor3f(0.1f, 0.0f, 0.1f);
+	glColor3f(0.4f, 0.0f, 0.3f);
 	glPushMatrix();
 		glTranslatef(0.0f, 0.5f, 0.0f);
 		glScalef(7.0f, 10.0f, 0.5f);
@@ -110,34 +119,50 @@ void OnRender() {
 
 
 	// Kulka
-	glColor3f(0.0f, 1.0f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glPushMatrix();
-		glTranslatef(posx, posy, 0.8f);
+		glTranslatef(posx, posy, 0.45f);
 		glutSolidSphere(.2f, 24, 24);
 	glPopMatrix();
 
 	// gracz
 	glColor3f(1.0f, 0.0f, 0.0f);
 		glPushMatrix();
-	glTranslatef(Xgracza, -3.5f, 0.0f);
-	glScalef(1.0f, .5f, 1.5f);
+	glTranslatef(Xgracza, -3.5f, 0.5f);
+	glScalef(1.0f, .5f, 0.5f);
 	glutSolidCube(1.00f);
 		glPopMatrix();
 
-	if (posx < 3)
-	{
-		posx = 0.01*frame;
-		
 
-	}
-	else
+	posx = posx + vx; //ruch X
+	if (posx > 3)
 	{
-		posx = posx - 0.1;
+		posx = 3;
+		vx = -vx;
 	}
+
+	if (posx < -3)
+	{
+		posx = -3;
+		vx = -vx;
+	}
+
+	if ( (posx > Xgracza-0.5 && posx < Xgracza+1) && posy <-3)
+	{
+		
+		vy = -vy;
+	}
+		
 	
-	if (posy < 10)
+	posy = posy + vy; //ruch Y
+	if (posy > 5)
 	{
-		posy = 0.005 * frame;
+		vy = -vy;
+	}
+
+	if (posy < -4)
+	{
+		vy = -vy;
 	}
 	// Jesli instrukcje w danej implementacji OpenGL byly buforowane,
 	// w tym momencie bufor zostanie oprozniony a instrukcje wykonane.
@@ -151,7 +176,7 @@ void OnRender() {
 
 	// Inkrementacja licznika klatek.
 	frame++;
-
+	
 }
 
 // Callback obslugujacy zmiane rozmiaru okna.

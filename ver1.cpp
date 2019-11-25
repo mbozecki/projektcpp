@@ -16,11 +16,10 @@ void OnReshape(int, int);
 GLint polygon_smooth_hint = GL_NICEST;
 //glEnable(GL_POLYGON_SMOOTH);
 float Xgracza = 0;
-
 GLuint texture;
 //glGenTextures(1, &texture);
 
-
+	
 void keyPressed(unsigned char key, int x, int y)
 {
 	if (key == 'a')
@@ -30,7 +29,7 @@ void keyPressed(unsigned char key, int x, int y)
 		
 		if (Xgracza < -3)
 		{
-			Xgracza = 0;
+			Xgracza = -3;
 		}
 	}
 
@@ -40,7 +39,7 @@ void keyPressed(unsigned char key, int x, int y)
 		Xgracza = Xgracza + 0.15;
 		if (Xgracza > 3)
 		{
-			Xgracza = 0;
+			Xgracza = 3;
 		}
 	}
 }
@@ -134,7 +133,7 @@ void OnRender() {
 		glPopMatrix();
 
 
-	posx = posx + vx; //ruch X
+	posx = posx + vx; //ruch X Kulki
 	if (posx > 3)
 	{
 		posx = 3;
@@ -160,10 +159,13 @@ void OnRender() {
 		vy = -vy;
 	}
 
-	if (posy < -4)
+	if (posy < -4.5)
 	{
 		vy = -vy;
+		posx = 1;
+		posy = 0;
 	}
+
 	// Jesli instrukcje w danej implementacji OpenGL byly buforowane,
 	// w tym momencie bufor zostanie oprozniony a instrukcje wykonane.
 	glFlush();

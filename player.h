@@ -12,7 +12,7 @@ public:
 	void move(char x, float Xbox);
 
 	float getx();
-	float gety(float yy);
+	float gety();
 	//--------------------------------------------------
 	float x= 0;
 	float y =-400;

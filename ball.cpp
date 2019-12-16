@@ -18,15 +18,14 @@ void ball::update()
 
 }
 
-void ball::draw()
+void ball::draw(float &xgracza)
 {
-	
-	move(posx, posy);
+	move(posx, posy, xgracza);
 	pilka.setPosition(posx, posy, 20);
 	pilka.drawFaces();
 }
 
-void ball::move(float &posx,float &posy)
+void ball::move(float &posx,float &posy,float &xgracza)
 {
 
 	if (posx > 300)
@@ -43,8 +42,9 @@ void ball::move(float &posx,float &posy)
 	{
 		posx += vx;
 	}
-	if (posy <= -392 && posy <= -400 && posx> (x-150) && posx < (x+100)) //odbicie od gracza
+	if (posy <= -392 && posy >= -404 && posx>= (xgracza -50) && posx <= (xgracza +10)) //odbicie od gracza
 	{
+		cout << xgracza << endl;
 
 		vy = -vy;
 		posy += vy;

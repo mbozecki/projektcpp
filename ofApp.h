@@ -36,7 +36,9 @@ class ofApp : public ofBaseApp{
 		ofEasyCam cam;
 		ofVec3f lookatPos = ofVec3f(1024 / 2, 768 / 2, 900);
 		ofLight	light;
-		ofxAssimpModelLoader blok[6][7];
+		ofxAssimpModelLoader blok[6][6];
+		ofSoundPlayer muzykatlo;
+
 		std::string nazwa = "Projekt c++ Mikolaj Bozecki";
 		int cornerindex = 0;
 		int szerokoscokna = 1024;

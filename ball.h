@@ -7,13 +7,13 @@ class ball : public player
 public:
 	void setup();
 	void update();
-	void draw();
-	void move(float &posx, float &posy);
+	void draw(float &xgracza);
+	void move(float &posx, float &posy,float &xgracza);
 	ball();
 
 	ofxAssimpModelLoader pilka;
 	float posx = 0;
-	float posy = 0;
+	float posy = -200;
 	float vx = 4;
 	float vy = 4;
 };

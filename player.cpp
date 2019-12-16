@@ -46,3 +46,7 @@ float player::getx()
 	return player::x;
 
 }
+float player::gety()
+{
+	return player::y;
+}

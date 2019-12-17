@@ -42,7 +42,7 @@ void ball::move(float &posx,float &posy,float &xgracza)
 	{
 		posx += vx;
 	}
-	if (posy <= -392 && posy >= -404 && posx>= (xgracza -50) && posx <= (xgracza +10)) //odbicie od gracza
+	if (posy <= -392 && posy >= -404 && posx>= (xgracza -60) && posx <= (xgracza +60)) //odbicie od gracza
 	{
 		cout << xgracza << endl;
 

@@ -12,6 +12,9 @@ public:
 	ofxAssimpModelLoader menus1;
 	ofxAssimpModelLoader menus2;
 	ofTexture  menutlo;
+	ofTexture menutlodol;
+	ofTexture menuopcje;
 	int u = 0;
+	int menunawigator = 0;
 };
 

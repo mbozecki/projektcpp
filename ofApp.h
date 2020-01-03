@@ -16,19 +16,9 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
-
 		void keyPressed(int key);
-		//void keyReleased(int key);
-		//void mouseMoved(int x, int y );
-		//void mouseDragged(int x, int y, int button);
-		//void mousePressed(int x, int y, int button);
-		//void mouseReleased(int x, int y, int button);
-		//void mouseEntered(int x, int y);
-		//void mouseExited(int x, int y);
-		//void windowResized(int w, int h);
-		//void dragEvent(ofDragInfo dragInfo);
-		//void gotMessage(ofMessage msg);
 
+		std::string nazwa = "Projekt C++ Mikolaj Bozecki";
 
 		player Gracz1;
 		plansza Plansza1;
@@ -40,11 +30,12 @@ class ofApp : public ofBaseApp{
 		ofLight	light;
 		ofLight lightstart;
 		ofxAssimpModelLoader blok[6][6];
+
 		ofSoundPlayer muzykatlo;
 		ofSoundPlayer sfx;
 		ofSoundPlayer sfx2;
 		ofSoundPlayer sfx3;
-		std::string nazwa = "Projekt c++ Mikolaj Bozecki";
+		
 		int cornerindex = 0;
 		int szerokoscokna = 1024;
 		int wysokoscokna = 768;

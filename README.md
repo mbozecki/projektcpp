@@ -2,7 +2,7 @@
 Projekt zaliczeniowy 3 semestr ISSP
 
 
-Stworzenie gry w stylu Arkanoida, w trójwymiarze, przy użyciu języka C++ wspomaganego bibliotekami: OpenGL, GLFW3, GLAD.
-Planuję stworzyć wersję która będzie oferowała ciekawą grafikę i efekty, i oczywiście która będzie grywalna.
+Stworzenie gry w stylu Arkanoida, w trójwymiarze, przy użyciu języka C++ wspomaganego biblioteką Openframeworks.
+Planuję stworzyć wersję która będzie oferowała ciekawą rozgrywkę, grafikę i efekty.
 Jak w oryginalnej wersji, będzie można zdobywać różne power-upy, dodatki itp.
-Planuję wykonać około 3-5 poziomów gry, wszystko zależy od wyrobienia się z innymi elementami- to zostawiam na koniec.
+Planuję wykonać od 3 do 5 poziomów gry, wszystko zależy od wyrobienia się z innymi elementami- to zostawiam na koniec.

@@ -40,13 +40,3 @@ void player::move(char q,float Xbox)
 	}
 
 }
-
-float player::getx()
-{
-	return player::x;
-
-}
-float player::gety()
-{
-	return player::y;
-}

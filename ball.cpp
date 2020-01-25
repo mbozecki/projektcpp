@@ -8,7 +8,6 @@ ball::ball()
 void ball::setup()
 {
 	pilka.loadModel("toto.dae");
-	//pilka.loadModel("MIKASA2.obj");
 	pilka.setScale(0.06, 0.06, 0.06);
 	pilka.setPosition(posx,posy, 20);
 }

@@ -29,13 +29,13 @@ void player::move(char q,float Xbox)
 {
 	if (q == 'a')
 	{
-		if (x > (Xbox+50)) x = x - 10;
+		if (x > (Xbox+50)) x = x - 12;
 		tekstura.setPosition(x, y, z);
 	}
 
 	else if (q == 'd')
 	{
-		if (x < (Xbox - 60)) x = x + 10;
+		if (x < (Xbox - 60)) x = x + 12;
 		tekstura.setPosition(x, y, z);
 	}
 

@@ -8,6 +8,7 @@ void menu::setup()
 	ofLoadImage(menutlo, "nowagraselected.png"); //zaladownie obrazka poczatkowego w menu
 	ofLoadImage(menutlodol, "jakgracselected.png"); //zaladowanie opcji drugiej
 	ofLoadImage(menuopcje, "kontrolspng.png"); //wejscie w 'jak grac?'
+	ofLoadImage(koniec, "gameover.jpg"); //koniec gry
 
 	punkty[0].x = -500 + 9999; punkty[0].y = -250 + 9999;
 	punkty[1].x = 500 + 9999; punkty[1].y = -250 + 9999;
@@ -42,6 +43,8 @@ void menu::draw()
 		menuopcje.draw(punkty[0], punkty[1], punkty[2], punkty[3]);
 	}
 
+	
+
 	menus1.drawFaces();
 	menus2.drawFaces();
 
@@ -58,4 +61,10 @@ void menu::draw()
 
 	menus1.setRotation(2,180, 0, 0,1);
 	menus2.setRotation(2, 180, 0, 0 , 1);
+}
+
+void menu::endgame()
+{
+	koniec.draw(punkty[0], punkty[1], punkty[2], punkty[3]);
+	
 }

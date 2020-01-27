@@ -15,7 +15,7 @@ void bloki::setup()
 		{
 			blok[i][j].loadModel("Cube44.dae"); ////blok
 			blok[i][j].setScale(0.08, 0.17, 0.09);
-			blok[i][j].setPosition(xprzesun, i * 53, 0);
+			blok[i][j].setPosition(xprzesun, (i * 53), 0);
 			blok[i][j].setRotation(0, 90, 0, 0, 1);
 			xprzesun += 100;
 		}
@@ -50,14 +50,14 @@ void bloki::draw(float& posx, float& posy, float& vx, float& vy)
 		xprzesun += 100;
 		yprzesun -= vprzesun;
 	}
-	if (yprzesun <= -240)
+	if (yprzesun <= -230)
 	{
 		vprzesun = -0.5;
 	}
 
-	if (yprzesun >= -130)
+	if (yprzesun >= -100)
 	{
-		vprzesun = 0.1;
+		vprzesun = 0.08;
 	}
 	//*if (yprzesun == 150)
 	//{
@@ -92,6 +92,7 @@ void bloki::draw(float& posx, float& posy, float& vx, float& vy)
 
 		}
 	}
+
 }//w xach od lewej za malo na minusie
 
 void bloki::update()

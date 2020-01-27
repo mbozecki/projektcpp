@@ -7,6 +7,7 @@ public:
 	void setup();
 	void update();
 	void draw();
+	void endgame();
 	menu();
 	ofPoint punkty[4];
 	ofxAssimpModelLoader menus1;
@@ -14,6 +15,7 @@ public:
 	ofTexture  menutlo;
 	ofTexture menutlodol;
 	ofTexture menuopcje;
+	ofTexture koniec;
 	int u = 0;
 	int menunawigator = 0;
 };

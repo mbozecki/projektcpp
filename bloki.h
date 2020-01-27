@@ -12,7 +12,9 @@ public:
 	bloki();
 
 	int xprzesun = -250;
-	ofxAssimpModelLoader blok[6][6];
+	float yprzesun = -150;
+	float vprzesun = 0.2;
+	ofxAssimpModelLoader blok[8][6];
 	ofSoundPlayer sfx;
 };
 

@@ -9,6 +9,7 @@ public:
 	void update();
 	void draw(float &xgracza);
 	void move(float &posx, float &posy,float &xgracza);
+	void gluetoplayer(float& posx, float& posy, float& xgracza);
 	ball();
 
 	ofxAssimpModelLoader pilka;
@@ -16,5 +17,6 @@ public:
 	float posy = -200;
 	float vx = 4;
 	float vy = 4;
+	bool started = false;
 };
 

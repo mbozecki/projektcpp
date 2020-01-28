@@ -6,7 +6,7 @@ class plansza
 public:
 	void setup();
 	void update();
-	void draw();
+	void draw(int level);
 	plansza();
 	float getrightboxX();
 	float getleftboxX();
@@ -14,6 +14,7 @@ public:
 	int zyciagracza = 3;
 	ofBoxPrimitive box;
 	ofTexture  imagetexture;
+	ofTexture imagelvl2;
 	ofPoint points[4];
 	ofBoxPrimitive boxleft;
 	ofBoxPrimitive boxright;

@@ -62,8 +62,23 @@ void ball::move(float &posx,float &posy,float &xgracza)
 		{
 			vx = 4;
 		}
-		vx = vx * abs((posx - xgracza)/50);
+
+		if ((posx - xgracza) < 0 && (vx>0))
+		{
+			vx = -vx * abs((posx - xgracza) / 50);
+		}
+		else if ((posx - xgracza) > 0 && (vx<0))
+		{
+			vx = -vx * abs((posx - xgracza) / 50);
+		}
+		else
+		{
+			vx = vx * abs((posx - xgracza) / 50);
+		}
+		
 		vy = sqrt(abs((vx * vx) - 32));
+
+
 		//cout << v << endl;
 		//posy += vy;
 	}
@@ -81,6 +96,11 @@ void ball::move(float &posx,float &posy,float &xgracza)
 	else
 	{
 		posy += vy;
+		cout << vy << endl;
+	}
+	if (vy >= 4.4)
+	{
+		vy = 4;
 	}
 }
 

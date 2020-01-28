@@ -70,6 +70,8 @@ void plansza::draw(int level)
 	else if (level == 2)
 	{
 		imagelvl2.draw(points[0], points[1], points[2], points[3]);
+		material.setDiffuseColor(ofColor::mediumPurple); //nadanie materialu bry³om pobocznym
+		material.setAmbientColor(ofColor::black);
 	}
 
 	material.begin();

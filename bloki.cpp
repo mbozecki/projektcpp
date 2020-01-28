@@ -64,7 +64,7 @@ void bloki::draw(float& posx, float& posy, float& vx, float& vy)
 		blok[7][i].drawFaces();
 
 		if (posx >= blok[7][0].getPosition()[0] - 40 && posx < blok[7][0].getPosition()[0] + 328
-			&& ((posy >= blok[7][0].getPosition()[1] - 44 && posy <= blok[7][0].getPosition()[1] - 32) || (posy >= blok[7][0].getPosition()[1] + 32 && posy <= blok[7][0].getPosition()[1] + 44))) //zbijanie blokow ,odbicie w dol ( z do)
+			&& ((posy >= blok[7][0].getPosition()[1] - 41 && posy <= blok[7][0].getPosition()[1] - 35) || (posy >= blok[7][0].getPosition()[1] + 34 && posy <= blok[7][0].getPosition()[1] + 42))) //zbijanie blokow ,odbicie w dol ( z do)
 		{
 			blok[7][0].setPosition(-999, -999, -600);
 
@@ -72,7 +72,7 @@ void bloki::draw(float& posx, float& posy, float& vx, float& vy)
 			vy = -vy;
 		}
 
-		if (((posx >= blok[7][0].getPosition()[0] - 41 && posx <= blok[7][0].getPosition()[0] - 26) || (posx >= blok[7][0].getPosition()[0] + 316 && posx <= blok[7][0].getPosition()[0] + 327))
+		if (((posx >= blok[7][0].getPosition()[0] - 42 && posx <= blok[7][0].getPosition()[0] - 26) || (posx >= blok[7][0].getPosition()[0] + 316 && posx <= blok[7][0].getPosition()[0] + 327))
 			&& posy >= blok[7][0].getPosition()[1] - 41 && posy <= blok[7][0].getPosition()[1] + 41) //zbijanie blokow, odbicie w bok (od lewej)
 		{
 			blok[7][0].setPosition(-999, -999, -600);

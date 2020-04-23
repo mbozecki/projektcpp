@@ -10,3 +10,4 @@ Screen z gry:
 
 
 [![skrrrin18.jpg](https://i.postimg.cc/Gt7NHKD7/skrrrin18.jpg)](https://postimg.cc/RJtGYcXK)
+![Alt Text](https://j.gifs.com/mOjn8A.gif)
